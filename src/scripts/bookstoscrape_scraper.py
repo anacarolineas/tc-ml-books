@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import requests
 import time
 import csv
@@ -6,9 +7,11 @@ import logging
 from bs4 import BeautifulSoup
 
 # Configuração do logging
+script_dir = Path(__file__).resolve().parent
+log_file_path = script_dir / 'log_scraping.txt'
 logging.basicConfig(
     level=logging.INFO,
-    filename='log_scraping.txt',
+    filename=log_file_path,
     filemode='w',
     format='%(asctime)s - %(levelname)s - %(message)s'
 )

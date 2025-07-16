@@ -1,0 +1,13 @@
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
+SQLALCHEMY_DATABASE_URL = "sqlite:///books_toscrape.db"
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, 
+    # Este argumento é necessário para SQLite para garantir que um único thread seja usado.
+    connect_args={"check_same_thread": False} 
+)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
