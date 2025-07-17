@@ -1,4 +1,7 @@
 import csv
+import os
+from pathlib import Path
+
 from database import SessionLocal, engine
 from models import Base, Book, Category, RatingEnum
 
@@ -12,13 +15,16 @@ try:
     categories_processed = set()
     categorias_db_map = {}
 
-    with open('../data/books_toscrape.csv', mode='r', encoding='utf-8') as csv_file:
+    SCRIPT_DIR = Path(__file__).resolve().parent
+    PATH_FILE = SCRIPT_DIR.parent / 'data' / 'books_toscrape.csv'
+    print(f"Script directory: {PATH_FILE}")
+    with open(PATH_FILE, mode='r', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
             category_name = row['Category'].strip()
 
             if category_name not in categories_processed:
-                new_category = Category(nome=category_name)
+                new_category = Category(name=category_name)
                 session.add(new_category)
                 
                 categories_processed.add(category_name)
@@ -41,6 +47,5 @@ try:
 except Exception as e:
     print(f"Ocorreu um erro durante a carga de dados: {e}")
     session.rollback()
-    print("As alterações foram revertidas.")
 finally:
     session.close()
