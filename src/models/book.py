@@ -1,15 +1,8 @@
-import enum
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, String, Enum
+from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import declarative_base, relationship 
+import enum
 
-Base = declarative_base()
-
-class Category(Base):
-    __tablename__ = 'categories'
-    
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False, unique=True)
-    books = relationship("Book", back_populates="category")
+from ..database import Base
 
 class RatingEnum(enum.Enum):
     One = 1
@@ -29,4 +22,3 @@ class Book(Base):
     image_url = Column(String(255), nullable=True)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     category = relationship("Category", back_populates="books")
-

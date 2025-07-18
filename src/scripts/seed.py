@@ -1,9 +1,10 @@
 import csv
-import os
 from pathlib import Path
 
-from database import SessionLocal, engine
-from models import Base, Book, Category, RatingEnum
+from src.database import Base, SessionLocal, engine
+from src.models.book import Book, RatingEnum
+from src.models.category import Category
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -17,7 +18,7 @@ try:
 
     SCRIPT_DIR = Path(__file__).resolve().parent
     PATH_FILE = SCRIPT_DIR.parent / 'data' / 'books_toscrape.csv'
-    print(f"Script directory: {PATH_FILE}")
+
     with open(PATH_FILE, mode='r', encoding='utf-8') as csv_file:
         reader = csv.DictReader(csv_file)
         for row in reader:
