@@ -76,6 +76,7 @@ def get_books_top_rated(db: Session, page: int, page_size: int = 50) -> Page:
     books_query = (
         db.query(Book)
         .filter(Book.rating.in_([RatingEnum.Four, RatingEnum.Five]))
+        .order_by(Book.rating.asc())
         .options(joinedload(Book.category))
     )
     return paginate(books_query, page=page, page_size=page_size)

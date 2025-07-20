@@ -2,7 +2,7 @@
 from typing import List
 from requests import Session
 from sqlalchemy import func
-
+from ..models.category import Category
 from ..schemas.stats import StatsCategoriesResponse
 from ..schemas.stats import StatsOverviewResponse
 from ..models.book import Book
@@ -35,12 +35,12 @@ def get_stats_categories(db: Session) -> List[StatsCategoriesResponse]:
     """
     stats_raw = (
         db.query(
-        Book.category_id,
+        Category.name,
         func.count(Book.id),
         func.avg(Book.price)
         )
         .join(Book.category)
-        .group_by(Book.category_id).all()
+        .group_by(Category.name).all()
     )
 
     return [
