@@ -1,13 +1,9 @@
 import csv
 from pathlib import Path
-
-from src.database import Base, SessionLocal, engine
-from src.models.book import Book, RatingEnum
-from src.models.category import Category
-
+from src.core.database import Base, SessionLocal, engine
+from src.models.book import Book, RatingEnum, Category
 
 Base.metadata.create_all(bind=engine)
-
 session = SessionLocal()
 
 try:

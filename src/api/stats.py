@@ -1,13 +1,17 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..schemas.stats import StatsOverviewResponse, StatsCategoriesResponse
-from src.crud.stats import get_stats_overview, get_stats_categories
+from src.core import get_db
+from src.schemas import StatsOverviewResponse, StatsCategoriesResponse
+from src.crud import get_stats_overview, get_stats_categories
 
 router = APIRouter()
 
-@router.get("/stats/overview", response_model=StatsOverviewResponse, summary="Obter estatísticas gerais dos livros")
+@router.get(
+        "/stats/overview", 
+        response_model=StatsOverviewResponse, 
+        summary="Obter estatísticas gerais dos livros"
+)
 async def read_stats_overview(db: Session = Depends(get_db)):
     """
     Retorna uma visão geral das estatísticas dos livros.
@@ -18,7 +22,11 @@ async def read_stats_overview(db: Session = Depends(get_db)):
     """
     return get_stats_overview(db=db)
 
-@router.get("/stats/categories", response_model=List[StatsCategoriesResponse], summary="Obter estatísticas gerais das categorias")
+@router.get(
+        "/stats/categories", 
+        response_model=List[StatsCategoriesResponse], 
+        summary="Obter estatísticas gerais das categorias"
+    )
 async def read_stats_categories(db: Session = Depends(get_db)):
     """
     Retorna uma visão geral das estatísticas das categorias.

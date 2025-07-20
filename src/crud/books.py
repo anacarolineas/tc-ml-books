@@ -1,9 +1,8 @@
 from sqlalchemy import or_
 from sqlalchemy.orm import Session, joinedload
-from ..core.pagination import paginate
-from ..schemas.page import Page
-from ..models.book import Book, RatingEnum
-from ..models.category import Category
+from src.core.pagination import paginate
+from src.schemas import Page
+from src.models import Book, RatingEnum, Category
 
 def get_books(db: Session, page: int, page_size: int = 50) -> Page:
     """

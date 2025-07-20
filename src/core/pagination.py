@@ -1,6 +1,6 @@
 import math
 from typing import TypeVar
-from ..schemas.page import Page
+from src.schemas import Page
 from sqlalchemy.orm import Query
 
 T = TypeVar('T')

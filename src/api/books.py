@@ -1,86 +1,90 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-
-from ..schemas.page import Page
-from ..database import get_db 
-from ..schemas.book import BookResponse
-from src.crud.books import get_books, get_book_by_id, search_books, get_books_top_rated, get_books_by_price_range
+from src.core import get_current_user
+from src.schemas import Page, BookResponse, UserResponse
+from src.core import get_db 
+from src.crud import get_books, get_book_by_id, search_books, get_books_top_rated, get_books_by_price_range
 
 router = APIRouter()
 
-@router.get("/books", response_model=Page[BookResponse], summary="Listar todos os livros")
+@router.get(
+    "/books", 
+    response_model=Page[BookResponse], 
+    summary="List all books"
+)
 async def read_books(
     db: Session = Depends(get_db),
-    page: int = Query(1, ge=1, description="Número da página a ser retornada"),
-    page_size: int = Query(50, ge=1, le=1000, description="Número de itens por página (máximo 1000)")
+    current_user: UserResponse = Depends(get_current_user),  
+    page: int = Query(1, ge=1, description="Page number to be returned"),
+    page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
     """
-    Retorna uma lista de livros com seus detalhes e categoria.
+    Returns a list of books with their details and category.
 
-    - Cada livro contém seus detalhes completos.
-    - A categoria associada a cada livro também é incluída.
+    - Each book contains its complete details.
+    - The category associated with each book is also included.
     """
     return get_books(db=db, page=page, page_size=page_size)
 
-@router.get("/books/price-range", response_model=Page[BookResponse], summary="Listar livros por faixa de preço  entre dois valores  mínimo e máximo de preço")
+@router.get("/books/price-range", response_model=Page[BookResponse], summary="List books by price range between two values: minimum and maximum price")
 async def read_books_by_price_range(
-    min_price: float = Query(..., description="Preço mínimo para filtrar livros"),
-    max_price: float = Query(..., description="Preço máximo para filtrar livros"),
+    min_price: float = Query(..., description="Minimum price to filter books"),
+    max_price: float = Query(..., description="Maximum price to filter books"),
     db: Session = Depends(get_db),
-    page: int = Query(1, ge=1, description="Número da página a ser retornada"),
-    page_size: int = Query(50, ge=1, le=1000, description="Número de itens por página (máximo 1000)")
+    page: int = Query(1, ge=1, description="Page number to be returned"),
+    page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
     """
-    Retorna uma lista de livros filtrados por faixa de preço.
+    Returns a list of books filtered by price range.
 
-    - `min_price`: Preço mínimo para filtrar os livros.
-    - `max_price`: Preço máximo para filtrar os livros.
-    - Retorna uma lista paginada de livros que estão dentro da faixa de preço especificada.
+    - `min_price`: Minimum price to filter books.
+    - `max_price`: Maximum price to filter books.
+    - Returns a paginated list of books within the specified price range.
     """
     return get_books_by_price_range(db=db, min_price=min_price, max_price=max_price, page=page, page_size=page_size)
 
-@router.get("/books/top-rated", response_model=Page[BookResponse], summary="Listar livros mais bem avaliados. Nota maior ou igual a 4")
+@router.get("/books/top-rated", response_model=Page[BookResponse], summary="List top-rated books. Rating greater than or equal to 4")
 async def read_top_rated_books(
     db: Session = Depends(get_db),
-    page: int = Query(1, ge=1, description="Número da página a ser retornada"),
-    page_size: int = Query(50, ge=1, le=1000, description="Número de itens por página (máximo 1000)")
+    page: int = Query(1, ge=1, description="Page number to be returned"),
+    page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
     """
-    Retorna uma lista de livros mais bem avaliados. Nota maior ou igual a 4
+    Returns a list of top-rated books. Rating greater than or equal to 4
 
-    - Cada livro contém seus detalhes completos.
-    - A categoria associada a cada livro também é incluída.
+    - Each book contains its complete details.
+    - The category associated with each book is also included.
     """
     return get_books_top_rated(db=db, page=page, page_size=page_size)
 
-@router.get("/books/search", response_model=Page[BookResponse], summary="Pesquisar livros por título ou categoria")
+@router.get("/books/search", response_model=Page[BookResponse], summary="Search books by title or category")
 async def search(
-    title: str = Query("", description="Título do livro para pesquisa"),
-    category: str = Query("", description="Categoria do livro para pesquisa"),
+    title: str = Query("", description="Book title for search"),
+    category: str = Query("", description="Book category for search"),
     db: Session = Depends(get_db),
-    page: int = Query(1, ge=1, description="Número da página a ser retornada"),
-    page_size: int = Query(50, ge=1, le=1000, description="Número de itens por página (máximo 1000)")
+    page: int = Query(1, ge=1, description="Page number to be returned"),
+    page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
     """
-    Pesquisa livros por título ou categoria.
+    Search books by title or category.
 
-    - `title`: Título do livro para filtrar os resultados.
-    - `category`: Categoria do livro para filtrar os resultados.
-    - Retorna uma lista paginada de livros que correspondem aos critérios de pesquisa.
+    - `title`: Book title to filter results.
+    - `category`: Book category to filter results.
+    - Returns a paginated list of books matching the search criteria.
     """
     return search_books(db=db, title=title, category=category, page=page, page_size=page_size)
 
 @router.get("/books/{book_id}", response_model=BookResponse, summary="Obter detalhes de um livro específico")
 async def read_book(book_id: int, db: Session = Depends(get_db)):
     """
-    Retorna os detalhes de um livro específico, incluindo sua categoria.
+    Returns the details of a specific book, including its category.
 
-    - `book_id`: ID do livro a ser consultado.
-    - Retorna os detalhes completos do livro e sua categoria associada.
+    - `book_id`: ID of the book to be retrieved.
+    - Returns the complete details of the book and its associated category.
     """
     book = get_book_by_id(db=db, book_id=book_id)
     if book is None:
-        raise HTTPException(status_code=404, detail="Livro não encontrado")
+        raise HTTPException(status_code=404, detail="Book not found")
     return book
 
 

@@ -1,8 +1,7 @@
 from sqlalchemy import Boolean, Column, Enum, ForeignKey, Integer, Numeric, String
-from sqlalchemy.orm import declarative_base, relationship 
+from sqlalchemy.orm import relationship 
 import enum
-
-from ..database import Base
+from src.core import Base
 
 class RatingEnum(enum.Enum):
     One = 1

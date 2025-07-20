@@ -1,10 +1,9 @@
 
 from fastapi import APIRouter, Depends, Query
 from requests import Session
-from ..schemas.category import CategoryResponse
-from ..schemas.page import Page
-from ..database import get_db 
-from src.crud.categories import get_categories
+from src.schemas import CategoryResponse, Page
+from src.core import get_db 
+from src.crud import get_categories
 
 router = APIRouter()
 

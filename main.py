@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.api import books, categories, health, stats
+from src.api import books, categories, health, stats, auth, user
 
 app = FastAPI(
     title="Books To Scrape API",
@@ -8,14 +8,24 @@ app = FastAPI(
 )
 
 app.include_router(
+    auth.router, 
+    prefix="/api/v1",
+    tags=["Auth"])
+
+app.include_router(
+    user.router, 
+    prefix="/api/v1",
+    tags=["Users"])
+
+app.include_router(
     books.router, 
     prefix="/api/v1",
-    tags=["Livros"])
+    tags=["Books"])
 
 app.include_router(
     categories.router, 
     prefix="/api/v1",
-    tags=["Categorias"])
+    tags=["Categories"])
 
 app.include_router(
     stats.router, 

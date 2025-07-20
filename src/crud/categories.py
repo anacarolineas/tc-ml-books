@@ -1,8 +1,8 @@
 
 from requests import Session
-from ..core.pagination import paginate
-from ..schemas.page import Page
-from ..models.category import Category
+from src.core.pagination import paginate
+from src.schemas import Page
+from src.models import Category
 
 def get_categories(db: Session, page: int, page_size: int = 50) -> Page:
     """
