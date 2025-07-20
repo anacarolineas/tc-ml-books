@@ -1,9 +1,9 @@
 from requests import Session
 from src.core.hashing import hash_password, verify_password
 from src.schemas import UserResponse
-from src.models import User
+from src.models.user import User
 
-def get_user_by_username(db: Session, username: str) -> UserResponse | None:
+def get_user_by_username(db: Session, username: str) -> User | None:
     """
     Get a user by their username from the database.
     
@@ -11,11 +11,7 @@ def get_user_by_username(db: Session, username: str) -> UserResponse | None:
     :param username: Username of the user to retrieve
     :return: User object if found, else None
     """
-    user = db.query(User).filter(User.username == username).first()
-    if user is None:
-        return None
-    
-    return UserResponse.from_orm(user)
+    return db.query(User).filter(User.username == username).first()
 
 def authenticate_user(
     db: Session, 

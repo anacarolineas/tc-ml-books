@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from src.core import get_current_user
+from src.core import get_current_user, get_db
 from src.schemas import Page, BookResponse, UserResponse
-from src.core import get_db 
 from src.crud import get_books, get_book_by_id, search_books, get_books_top_rated, get_books_by_price_range
 
 router = APIRouter()
@@ -26,11 +25,16 @@ async def read_books(
     """
     return get_books(db=db, page=page, page_size=page_size)
 
-@router.get("/books/price-range", response_model=Page[BookResponse], summary="List books by price range between two values: minimum and maximum price")
+@router.get(
+    "/books/price-range", 
+    response_model=Page[BookResponse], 
+    summary="List books by price range between two values: minimum and maximum price"
+)
 async def read_books_by_price_range(
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user),
     min_price: float = Query(..., description="Minimum price to filter books"),
     max_price: float = Query(..., description="Maximum price to filter books"),
-    db: Session = Depends(get_db),
     page: int = Query(1, ge=1, description="Page number to be returned"),
     page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
@@ -43,9 +47,14 @@ async def read_books_by_price_range(
     """
     return get_books_by_price_range(db=db, min_price=min_price, max_price=max_price, page=page, page_size=page_size)
 
-@router.get("/books/top-rated", response_model=Page[BookResponse], summary="List top-rated books. Rating greater than or equal to 4")
+@router.get(
+    "/books/top-rated", 
+    response_model=Page[BookResponse], 
+    summary="List top-rated books. Rating greater than or equal to 4"
+)
 async def read_top_rated_books(
     db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user),
     page: int = Query(1, ge=1, description="Page number to be returned"),
     page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
@@ -57,11 +66,16 @@ async def read_top_rated_books(
     """
     return get_books_top_rated(db=db, page=page, page_size=page_size)
 
-@router.get("/books/search", response_model=Page[BookResponse], summary="Search books by title or category")
+@router.get(
+    "/books/search", 
+    response_model=Page[BookResponse], 
+    summary="Search books by title or category"
+)
 async def search(
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user),
     title: str = Query("", description="Book title for search"),
     category: str = Query("", description="Book category for search"),
-    db: Session = Depends(get_db),
     page: int = Query(1, ge=1, description="Page number to be returned"),
     page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
@@ -74,8 +88,16 @@ async def search(
     """
     return search_books(db=db, title=title, category=category, page=page, page_size=page_size)
 
-@router.get("/books/{book_id}", response_model=BookResponse, summary="Obter detalhes de um livro específico")
-async def read_book(book_id: int, db: Session = Depends(get_db)):
+@router.get(
+    "/books/{book_id}", 
+    response_model=BookResponse, 
+    summary="Get details of a specific book by ID"
+)
+async def read_book(
+    book_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user),
+):
     """
     Returns the details of a specific book, including its category.
 

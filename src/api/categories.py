@@ -1,17 +1,23 @@
 
 from fastapi import APIRouter, Depends, Query
 from requests import Session
+from src.core import get_current_user, get_db
 from src.schemas import CategoryResponse, Page
-from src.core import get_db 
 from src.crud import get_categories
+from src.schemas import UserResponse
 
 router = APIRouter()
 
-@router.get("/categories", response_model=Page[CategoryResponse], summary="Listar todas as categorias")
+@router.get(
+    "/categories", 
+    response_model=Page[CategoryResponse], 
+    summary="List all categories"
+)
 async def read_categories(
     db: Session = Depends(get_db),
-    page: int = Query(1, ge=1, description="Número da página a ser retornada"),
-    page_size: int = Query(50, ge=1, le=1000, description="Número de itens por página (máximo 1000)")
+    current_user: UserResponse = Depends(get_current_user),
+    page: int = Query(1, ge=1, description="Page number to be returned"),
+    page_size: int = Query(50, ge=1, le=1000, description="Number of items per page (maximum 1000)")
 ):
     """
     Retorna uma lista de todas as categorias disponíveis.

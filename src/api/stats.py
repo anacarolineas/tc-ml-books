@@ -1,8 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from src.core import get_db
-from src.schemas import StatsOverviewResponse, StatsCategoriesResponse
+from src.core import get_db, get_current_user
+from src.schemas import StatsOverviewResponse, StatsCategoriesResponse, UserResponse
 from src.crud import get_stats_overview, get_stats_categories
 
 router = APIRouter()
@@ -10,28 +10,32 @@ router = APIRouter()
 @router.get(
         "/stats/overview", 
         response_model=StatsOverviewResponse, 
-        summary="Obter estatísticas gerais dos livros"
+        summary="Get general book statistics"
 )
-async def read_stats_overview(db: Session = Depends(get_db)):
+async def read_stats_overview(
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user)):
     """
-    Retorna uma visão geral das estatísticas dos livros.
+    Returns an overview of book statistics.
     
-    - Contém o número total de livros.
-    - Preço médio dos livros.
-    - Distribuição de livros por classificação.
+    - Contains the total number of books.
+    - Average price of books.
+    - Distribution of books by rating.
     """
     return get_stats_overview(db=db)
 
 @router.get(
         "/stats/categories", 
         response_model=List[StatsCategoriesResponse], 
-        summary="Obter estatísticas gerais das categorias"
+        summary="Get general category statistics"
     )
-async def read_stats_categories(db: Session = Depends(get_db)):
+async def read_stats_categories(
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user)):
     """
-    Retorna uma visão geral das estatísticas das categorias.
+    Returns an overview of category statistics.
     
-    - Contém o número total de livros por categoria.
-    - Preço médio dos livros por categoria.
+    - Contains the total number of books per category.
+    - Average price of books per category.
     """
     return get_stats_categories(db=db)
