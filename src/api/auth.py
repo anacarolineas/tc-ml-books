@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from requests import Session
-from src.core import get_db
-from src.core import create_access_token
-from src.crud import authenticate_user
-from src.schemas import TokenResponse
+from src.core import get_db, refresh_token, create_access_token
+from src.crud import authenticate_user, get_user_by_username
+from src.schemas import TokenResponse, RefreshTokenRequest
 
 router = APIRouter()
 
@@ -33,4 +32,22 @@ async def login(
     
     access_token = create_access_token(data={"sub": user.username})
     return TokenResponse(access_token=access_token, token_type="bearer")
+
+@router.post(
+    "/refresh",
+    response_model=RefreshTokenRequest,
+    summary="Refresh access token"
+)
+async def create_refresh_token(
+    refresh_token_request: RefreshTokenRequest,
+    db: Session = Depends(get_db)
+) -> TokenResponse:
+    """
+    Refreshes the access token using a refresh token.
+    
+    - Requires a valid refresh token.
+    - Returns a new access token if successful.
+    """
+    new_refresh_token = refresh_token(db=db, refresh_token=refresh_token_request.refresh_token)
+    return TokenResponse(access_token=new_refresh_token, token_type="bearer")
     
