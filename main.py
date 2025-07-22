@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from src.middlewares.logging_middleware import structured_logging_middleware
 from src.api import books, categories, health, stats, auth, user
 
 app = FastAPI(
@@ -6,6 +7,8 @@ app = FastAPI(
     description="Uma API para analisar livros do Book To Scrape.",
     version="1.0.0"
 )
+
+app.middleware("http")(structured_logging_middleware)
 
 app.include_router(
     auth.router, 
