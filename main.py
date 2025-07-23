@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from src.middlewares.logging_middleware import structured_logging_middleware
-from src.api import books, categories, health, stats, auth, user
+from src.api import books, categories, health, stats, auth, user, ml
 
 app = FastAPI(
     title="Books To Scrape API",
@@ -34,6 +34,11 @@ app.include_router(
     stats.router, 
     prefix="/api/v1",
     tags=["Stats"])
+
+app.include_router(
+    ml.router, 
+    prefix="/api/v1",
+    tags=["Machine Learning"])
 
 app.include_router(
     health.router, 

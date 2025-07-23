@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 from src.core import get_current_user, get_db
 from src.schemas import Page, BookResponse, UserResponse
@@ -106,7 +106,7 @@ async def read_book(
     """
     book = get_book_by_id(db=db, book_id=book_id)
     if book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book not found")
     return book
 
 
