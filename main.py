@@ -10,6 +10,7 @@ app = FastAPI(
 
 app.middleware("http")(structured_logging_middleware)
 
+# TODO: complementar prefixo
 app.include_router(
     auth.router, 
     prefix="/api/v1",
