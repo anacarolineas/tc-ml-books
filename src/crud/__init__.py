@@ -8,4 +8,4 @@ from .books import (
 )
 from .categories import get_categories
 from .users import get_user_by_username, create_user, authenticate_user
-from .ml import stream_training_data
+from .ml import stream_training_data, save_prediction

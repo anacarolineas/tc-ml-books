@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from requests import Session
 from src.core import get_current_user, get_db, format_as_json_lines_training_data
-from src.schemas import BookFeaturesResponse, UserResponse, BookTrainingDataResponse
-from src.crud import get_book_by_id, stream_training_data
+from src.schemas import BookFeaturesResponse, UserResponse, BookTrainingDataResponse, PredictionResponse, BookResponse, PredictionCreate
+from src.crud import get_book_by_id, stream_training_data, save_prediction
 
 router = APIRouter()
 
@@ -16,7 +16,7 @@ async def get_ml_features_for_book(
     book_id: int,
     db: Session = Depends(get_db),
     current_user: UserResponse = Depends(get_current_user),
-):
+) -> BookResponse:
     """
     Endpoint to retrieve machine learning features.
     """
@@ -27,7 +27,8 @@ async def get_ml_features_for_book(
 
 @router.get(
     "/ml/training-data",
-    summary="Get features of a book")
+    summary="Stream all books training data"
+)
 async def get_ml_training_data(
     db: Session = Depends(get_db),
     current_user: UserResponse = Depends(get_current_user),
@@ -42,4 +43,26 @@ async def get_ml_training_data(
         content=format_as_json_lines_training_data(books_schema_stream),
         media_type="application/json"
     )
+
+@router.post(
+    "/ml/predictions",
+    response_model=PredictionResponse,
+    status_code=status.HTTP_201_CREATED,
+    summary="Create a prediction for a book"
+)
+async def create_prediction(
+    payload: PredictionCreate,
+    db: Session = Depends(get_db),
+    current_user: UserResponse = Depends(get_current_user),
+) -> PredictionResponse:
+    """
+    Endpoint to save a prediction for a book.
+    """
+    prediction = save_prediction(
+        db=db,
+        book_id=payload.book_id,
+        predicted_price=payload.predicted_price,
+        model_version=payload.model_version
+    )
+    return PredictionResponse.model_validate(prediction)
 
