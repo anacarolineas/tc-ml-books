@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from requests import Session
-from src.core import get_db
+from src.core import get_db, get_current_admin_user
 from src.crud.users import create_user
 from src.schemas import UserCreate, UserResponse
 
@@ -14,6 +14,7 @@ router = APIRouter()
 async def register(
     user_data: UserCreate,
     db: Session = Depends(get_db),
+    admin_user: UserResponse = Depends(get_current_admin_user),
     ) -> UserResponse:
     """
     Endpoint to create a new user.
