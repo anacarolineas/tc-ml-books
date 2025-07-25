@@ -7,7 +7,7 @@ from src.crud import get_books, get_book_by_id, search_books, get_books_top_rate
 router = APIRouter()
 
 @router.get(
-    "/books", 
+    "/", 
     response_model=Page[BookResponse], 
     summary="List all books"
 )
@@ -26,7 +26,7 @@ async def read_books(
     return get_books(db=db, page=page, page_size=page_size)
 
 @router.get(
-    "/books/price-range", 
+    "/price-range", 
     response_model=Page[BookResponse], 
     summary="List books by price range between two values: minimum and maximum price"
 )
@@ -48,7 +48,7 @@ async def read_books_by_price_range(
     return get_books_by_price_range(db=db, min_price=min_price, max_price=max_price, page=page, page_size=page_size)
 
 @router.get(
-    "/books/top-rated", 
+    "/top-rated", 
     response_model=Page[BookResponse], 
     summary="List top-rated books. Rating greater than or equal to 4"
 )
@@ -67,7 +67,7 @@ async def read_top_rated_books(
     return get_books_top_rated(db=db, page=page, page_size=page_size)
 
 @router.get(
-    "/books/search", 
+    "/search", 
     response_model=Page[BookResponse], 
     summary="Search books by title or category"
 )
@@ -89,7 +89,7 @@ async def search(
     return search_books(db=db, title=title, category=category, page=page, page_size=page_size)
 
 @router.get(
-    "/books/{book_id}", 
+    "/{book_id}", 
     response_model=BookResponse, 
     summary="Get details of a specific book by ID"
 )

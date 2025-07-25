@@ -23,22 +23,22 @@ app.include_router(
 
 app.include_router(
     books.router, 
-    prefix="/api/v1",
+    prefix="/api/v1/books",
     tags=["Books"])
 
 app.include_router(
     categories.router, 
-    prefix="/api/v1",
+    prefix="/api/v1/categories",
     tags=["Categories"])
 
 app.include_router(
     stats.router, 
-    prefix="/api/v1",
+    prefix="/api/v1/stats",
     tags=["Stats"])
 
 app.include_router(
     ml.router, 
-    prefix="/api/v1",
+    prefix="/api/v1/ml",
     tags=["Machine Learning"])
 
 app.include_router(

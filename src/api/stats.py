@@ -8,7 +8,7 @@ from src.crud import get_stats_overview, get_stats_categories
 router = APIRouter()
 
 @router.get(
-        "/stats/overview", 
+        "/overview", 
         response_model=StatsOverviewResponse, 
         summary="Get general book statistics"
 )
@@ -25,7 +25,7 @@ async def read_stats_overview(
     return get_stats_overview(db=db)
 
 @router.get(
-        "/stats/categories", 
+        "/categories", 
         response_model=List[StatsCategoriesResponse], 
         summary="Get general category statistics"
     )

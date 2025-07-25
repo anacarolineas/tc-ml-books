@@ -9,7 +9,7 @@ from src.schemas import UserResponse
 router = APIRouter()
 
 @router.get(
-    "/categories", 
+    "/", 
     response_model=Page[CategoryResponse], 
     summary="List all categories"
 )

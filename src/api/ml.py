@@ -8,7 +8,7 @@ from src.crud import get_book_by_id, stream_training_data, save_prediction
 router = APIRouter()
 
 @router.get(
-    "/ml/features/{book_id}",
+    "/features/{book_id}",
     response_model=BookFeaturesResponse,
     summary="Get features of a book",
 )
@@ -26,7 +26,7 @@ async def get_ml_features_for_book(
     return book
 
 @router.get(
-    "/ml/training-data",
+    "/training-data",
     summary="Stream all books training data"
 )
 async def get_ml_training_data(
@@ -45,7 +45,7 @@ async def get_ml_training_data(
     )
 
 @router.post(
-    "/ml/predictions",
+    "/predictions",
     response_model=PredictionResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Create a prediction for a book"
