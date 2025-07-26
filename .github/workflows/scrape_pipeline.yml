@@ -1,0 +1,32 @@
+name: Executar Pipeline de Scraping de Livros
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  scrape-and-load:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout
+        uses: actions/checkout@v4
+
+      - name: 2. Config Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 3. Install dependencies UV
+        run: |
+          pip install uv
+          uv pip install --system -r pyproject.toml
+
+      - name: 4. Execute data pipeline
+        env:
+          # Configre database secret on GitHub Secrets
+          # https://docs.github.com/en/actions/security-guides/encrypted-secrets
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python run_pipeline.py

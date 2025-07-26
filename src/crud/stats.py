@@ -2,9 +2,8 @@
 from typing import List
 from requests import Session
 from sqlalchemy import func
-from src.models.category import Category
+from src.models import Category, Book
 from src.schemas import StatsCategoriesResponse, StatsOverviewResponse
-from src.models.book import Book
 
 def get_stats_overview(db: Session) -> StatsOverviewResponse:
     """

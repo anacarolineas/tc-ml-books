@@ -1,7 +1,7 @@
 from requests import Session
 from src.core.hashing import hash_password, verify_password
 from src.schemas import UserResponse
-from src.models.user import User
+from src.models import User
 
 def get_user_by_username(db: Session, username: str) -> User | None:
     """
