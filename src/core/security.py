@@ -8,8 +8,7 @@ from src.crud import get_user_by_username
 from src.core import get_db
 from src.schemas import UserResponse
 
-# TODO: Move these constants to a secure configuration file or environment variables
-SECRET_KEY = os.getenv("SECRET_KEY", "your-default-super-secure-secret")
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 
 REFRESH_TOKEN_EXPIRE_DAYS = 7
