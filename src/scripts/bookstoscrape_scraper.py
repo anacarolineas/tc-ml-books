@@ -87,3 +87,6 @@ def scrape_book_data() -> str:
         end_time = time.perf_counter()
         logging.info(f"Tempo total de execução: {end_time - start_time:.2f} segundos")
 
+if __name__ == "__main__":
+    scrape_book_data()
+

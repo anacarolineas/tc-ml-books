@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 from src.models import Book, RatingEnum, Category
+from src.core import get_db
 
 def load_csv_to_db(db_session, csv_file_path: str):
     """    
@@ -9,9 +10,6 @@ def load_csv_to_db(db_session, csv_file_path: str):
     try:
         categories_processed = set()
         categorias_db_map = {}
-
-        SCRIPT_DIR = Path(__file__).resolve().parent
-        PATH_FILE = SCRIPT_DIR.parent / 'data' / 'books_toscrape.csv'
 
         with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
             reader = csv.DictReader(csv_file)
@@ -42,3 +40,9 @@ def load_csv_to_db(db_session, csv_file_path: str):
         db_session.rollback()
     finally:
         db_session.close()
+
+if __name__ == "__main__":
+    db = get_db()
+    SCRIPT_DIR = Path(__file__).resolve().parent
+    PATH_FILE = SCRIPT_DIR.parent / 'data' / 'books_toscrape.csv'
+    load_csv_to_db(db, PATH_FILE)

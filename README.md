@@ -27,6 +27,9 @@ Os dados disponíveis para essa API foram extraídos do site [books.toscrape](ht
 
 ```
 tc-ml-books/
+├── dashboard/         # Dashboard para análise de dados
+├── docs/              # Outras documentações, plano arquitetural
+├── pipelines/         # CI/CD, GitHub Actions 
 ├── src/
 │   ├── api/           # Handlers das rotas FastAPI
 │   ├── core/          # Utilitários, configuração, segurança
@@ -37,7 +40,8 @@ tc-ml-books/
 │   ├── schemas/       # Schemas Pydantic
 │   ├── scripts/       # Scripts para scraper e carga inicial da base
 │   └── main.py        # Ponto de entrada da aplicação FastAPI
-├── pyproject.toml
+├── Dockerfile
+├── pyproject.toml     # Dependências do projeto
 ├── README.md
 └── ...
 ```
@@ -53,14 +57,24 @@ cd tc-ml-books
 
 ### 2. Instale as dependências
 
-#### O projeto utiliza o UV para gerenciamento de pacotes.
-Instale seguindo sua a documentação, de acordo com o seu sistema operacional. [Documentação UV](https://docs.astral.sh/uv/getting-started/installation/)
+#### 2.1. Instalar UV
+```bash
+pip install uv
+```
+Outros meios de instalação: [Documentação UV](https://docs.astral.sh/uv/getting-started/installation/).
 
-#### Instalação das dependências utilizando comandos UV
+#### 2.2. Instalação das dependências utilizando comandos UV
+Linux
 ```bash
 uv venv
 source .venv/bin/activate
-uv pip install .
+uv pip sync pyproject.toml
+```
+Windows
+```bash
+uv venv
+.\venv\Scripts\activate
+uv pip sync pyproject.toml
 ```
 
 ### 3. Configure as variáveis de ambiente
@@ -81,14 +95,14 @@ alembic upgrade head
 ### 5. Inicie a API
 
 ```bash
-uvicorn src.main:app --reload
+uv run uvicorn main:app --reload
 ```
 
 A API estará disponível em [http://localhost:8000](http://localhost:8000).
 
 ## Documentação da API
 
-Documentação interativa disponível em:
+Documentação disponível em:
 
 - [Swagger UI](http://localhost:8000/docs)
 - [ReDoc](http://localhost:8000/redoc)
@@ -121,6 +135,28 @@ Construa e rode com Docker:
 docker build -t tc-ml-books .
 docker run -p 8000:8000 tc-ml-books
 ```
+
+## Executando Scripts de Scraper e Seed
+
+### 1. Rodar o Scraper
+
+O script de scraper coleta os dados de livros do site [books.toscrape](https://books.toscrape.com/) e salva em um arquivo na pasta `src/data/`. O script também gera um arquivo de log `log_scraping.txt` detalhado de execução nessa mesma pasta.
+
+Execute o comando:
+
+```bash
+uv run python src/scripts/bookstoscrape_scraper.py
+```
+
+### 2. Rodar o Seed (Carga Inicial)
+
+Após rodar o scraper, utilize o script de seed para popular o banco de dados com os dados coletados:
+
+```bash
+uv run python -m src.scripts.scrape_books
+```
+
+Certifique-se de que as variáveis de ambiente estejam configuradas e que o ambiente virtual esteja ativado antes de executar os scripts.
 
 ## Licença
 
