@@ -4,7 +4,7 @@ Este documento descreve a arquitetura da aplicação **Tech Challenge ML Books**
 
 ## Visão Geral
 
-A aplicação é composta por uma API RESTful desenvolvida em FastAPI, responsável por gerenciar livros, categorias, usuários e previsões de machine learning. O sistema utiliza um banco de dados relacional para persistência dos dados e integra um pipeline de scraping para alimentar a base de livros.
+A aplicação é composta por uma API RESTful desenvolvida em FastAPI, responsável por gerenciar livros, categorias, usuários e previsões de machine learning. O sistema utiliza um banco de dados local para persistência dos dados e integra um pipeline de scraping para alimentar a base de livros.
 
 ## Diagrama Arquitetural
 
@@ -13,13 +13,13 @@ A aplicação é composta por uma API RESTful desenvolvida em FastAPI, responsá
 ## Componentes Principais
 
 - **API FastAPI**  
-  Expõe endpoints REST para manipulação de livros, categorias, usuários, estatísticas e machine learning.
+  Expõe endpoints REST para consultas de livros, categorias, estatísticas,machine learning e cadastro de usuários. 
 
-- **Banco de Dados (SQLite/PostgreSQL)**  
+- **Banco de Dados (SQLite)**  
   Armazena informações sobre livros, categorias, usuários e previsões.
 
 - **Scraper**  
-  Coleta dados do site [books.toscrape.com](https://books.toscrape.com/) e alimenta o banco de dados.
+  Coleta dados do site [books.toscrape.com](https://books.toscrape.com/) para posteriormente alimentar o banco de dados.
 
 - **Camada CRUD**  
   Implementa a lógica de acesso e manipulação dos dados no banco, separando regras de negócio das rotas.
@@ -33,13 +33,17 @@ A aplicação é composta por uma API RESTful desenvolvida em FastAPI, responsá
 - **Endpoints de Machine Learning**  
   Disponibilizam features, dados de treino e previsões de preço para livros.
 
+- **Dashboard Interativo de Análise de Dados**  
+  Exploração e visualização dos dados coletados em um dashboard interativo utilizando a biblioteca Streamlit.
+
 ## Arquitetura para Escalabilidade Futura
 
 - **Separação de responsabilidades:** Cada camada (API, CRUD, modelos, schemas) é modular, facilitando manutenção e expansão.
-- **Banco de dados relacional escalável:** Suporte a PostgreSQL para ambientes produtivos, permitindo replicação e particionamento.
-- **Containerização:** Uso opcional de Docker para facilitar deploy em ambientes escaláveis (Kubernetes, cloud, etc).
-- **Pronto para orquestração:** Estrutura compatível com CI/CD e deploy automatizado.
-- **Cache e filas:** Possibilidade de integração futura com Redis/MQ para otimizar performance e tarefas assíncronas.
+- **Banco de dados relacional escalável:** Possibilidade de fácil migração para outros bancos, como o PostgreSQL ou MySQL, pensando em um cenário produtivo.
+- **Containerização:** Uso de Docker para facilitar deploy em ambientes escaláveis.
+- **Pronto para orquestração:** Estrutura pronta para CI/CD, já contendo uma configuração inicial de pipeline de injestão de dados utilizando GitHub Actions, garantindo atualização contínua da base de livros, sem depender de execução manual, e facilitando a rastreabilidade das coletas realizadas.
+- **Observabilidade:** Logs estruturados em todos os requests e scripts, gerando maior rastreabilidade e possibilitando de integração com painéis como Datadog ou Kibana.
+
 
 ## Cenário de Uso para Cientistas de Dados/ML
 
@@ -51,28 +55,27 @@ A aplicação é composta por uma API RESTful desenvolvida em FastAPI, responsá
 ## Plano de Integração com Modelos de ML
 
 - **Exportação de dados para treinamento:** Endpoint `/ml/training-data` permite exportar dados em formato JSON Lines, pronto para uso em pipelines de ML.
-- **Deploy de modelos:** Estrutura preparada para integração com serviços de modelos (ex: FastAPI, MLflow, SageMaker, Vertex AI), permitindo atualização e versionamento de modelos.
-- **Endpoint de inferência:** API expõe endpoint `/ml/predict` para receber dados de livros e retornar previsões de preço, podendo ser conectado a modelos hospedados localmente ou em cloud.
+- **Endpoint de Features de ML:** O endpoint `/ml/features` disponibiliza dados formatados de um determinado livro, prontos para uso em experimentação e prototipagem de modelos.
 - **Versionamento de modelos:** Possibilidade de registrar e consultar a versão do modelo utilizado em cada previsão, garantindo rastreabilidade.
 - **Logs e métricas:** Estrutura pronta para coletar logs de uso e métricas de performance dos modelos, facilitando monitoramento e melhoria contínua.
 
 ## Fluxo de Dados
 
 1. **Coleta de Dados:**  
-   O scraper coleta informações dos livros e armazena no banco de dados.
+  Scraper local para coleta de coleta de dados e injestão no banco de dados. 
 
 2. **Consumo da API:**  
    Usuários autenticados podem consultar, filtrar e buscar livros, além de acessar estatísticas e previsões de ML.
 
 3. **Machine Learning:**  
-   Dados dos livros podem ser exportados para treinamento de modelos. Previsões podem ser consultadas e registradas via API.
+   Dados dos livros podem ser exportados para treinamento de modelos. Previsões podem ser registradas via API.
 
 ## Tecnologias Utilizadas
 
 - **FastAPI** para a API REST
 - **SQLAlchemy** para ORM
 - **Pydantic** para validação de dados
-- **SQLite/PostgreSQL** como banco de dados
+- **SQLite** como banco de dados
 - **BeautifulSoup** para scraping
 - **JWT** para autenticação
 - **Docker** (opcional) para containerização
