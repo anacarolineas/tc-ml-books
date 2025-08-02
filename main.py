@@ -1,12 +1,19 @@
 from fastapi import FastAPI
+from src.core import limiter
 from src.middlewares.logging_middleware import structured_logging_middleware
 from src.api import books, categories, health, stats, auth, user, ml
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 app = FastAPI(
     title="Books To Scrape API",
     description="Uma API para analisar livros do Book To Scrape.",
     version="1.0.0"
 )
+
+# Configure rate limiting
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.middleware("http")(structured_logging_middleware)
 

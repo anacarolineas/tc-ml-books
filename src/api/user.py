@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from requests import Session
-from src.core import get_db, get_current_admin_user
+from src.core import get_db, limiter
 from src.crud.users import create_user
 from src.schemas import UserCreate, UserResponse
 
@@ -11,15 +11,17 @@ router = APIRouter()
     response_model=UserResponse,
     summary="Create a new user"
 )
+@limiter.limit("5/minute")
 async def register(
+    request: Request,
     user_data: UserCreate,
-    db: Session = Depends(get_db),
-    admin_user: UserResponse = Depends(get_current_admin_user),
+    db: Session = Depends(get_db)
     ) -> UserResponse:
     """
     Endpoint to create a new user.
     
     - Requires username and password.
+    - Limits to 5 requests per minute.
     - Returns the created user object.
     """
     new_user = create_user(db, user_data.username, user_data.password)

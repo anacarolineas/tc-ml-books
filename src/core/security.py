@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -7,6 +8,8 @@ from requests import Session
 from src.crud import get_user_by_username
 from src.core import get_db
 from src.schemas import UserResponse
+
+load_dotenv() 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
