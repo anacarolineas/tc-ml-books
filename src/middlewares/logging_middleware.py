@@ -21,8 +21,20 @@ async def structured_logging_middleware(request: Request, call_next):
         client_host=request.client.host
     )
 
-    response = await call_next(request)
     process_time = (time.time() - start_time) * 1000
+
+    try:
+        response = await call_next(request)
+    except Exception as exc:
+        log.error(
+            "request_error",
+            method=request.method,
+            path=request.url.path,
+            client_host=request.client.host,
+            error=str(exc),
+            process_time_ms=round(process_time, 2)
+        )
+        raise
 
     log.info(
         "request_finished",
