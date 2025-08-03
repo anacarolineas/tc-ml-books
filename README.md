@@ -1,7 +1,6 @@
-# TC ML Books
+# Tech Challenge ENG. Machine Learning - Scrapper Livros + Pipeline de dados
 
-Uma API RESTful baseada em FastAPI para consulta de livros, categorias, previsões de machine learning e cadastro de usuários. 
-Os dados disponíveis para essa API foram extraídos do site [books.toscrape](https://books.toscrape.com/).
+Uma API RESTful baseada em FastAPI para consulta de livros, categorias, previsões de machine learning e cadastro de usuários. Os dados disponíveis para essa API foram extraídos do site [books.toscrape](https://books.toscrape.com/).
 
 ## Funcionalidades
 
@@ -35,7 +34,7 @@ tc-ml-books/
 │   ├── core/          # Utilitários, configuração, segurança
 │   ├── crud/          # Lógica de acesso ao banco de dados
 │   ├── data/          # Arquivos gerados pelo scrape
-│   ├── middlewares/   # Logs e rate limit
+│   ├── middlewares/   # Centralização logs
 │   ├── models/        # Modelos SQLAlchemy
 │   ├── schemas/       # Schemas Pydantic
 │   ├── scripts/       # Scripts para scraper e carga inicial da base
@@ -61,7 +60,7 @@ cd tc-ml-books
 ```bash
 pip install uv
 ```
-Outros meios de instalação: [Documentação UV](https://docs.astral.sh/uv/getting-started/installation/).
+Outros formas de instalação: [Documentação UV](https://docs.astral.sh/uv/getting-started/installation/).
 
 #### 2.2. Instalação das dependências utilizando comandos UV
 Linux
@@ -140,7 +139,7 @@ docker run -p 8000:8000 tc-ml-books
 
 ### 1. Rodar o Scraper
 
-O script de scraper coleta os dados de livros do site [books.toscrape](https://books.toscrape.com/) e salva em um arquivo na pasta `src/data/`. O script também gera um arquivo de log `log_scraping.txt` detalhado de execução nessa mesma pasta.
+O script de scraper coleta os dados de livros do site [books.toscrape](https://books.toscrape.com/) e salva em um arquivo na pasta `src/data/`. Um arquivo de log `log_scraping.txt` é gerado, detalhando sua execução.
 
 Execute o comando:
 
@@ -153,14 +152,25 @@ uv run python src/scripts/bookstoscrape_scraper.py
 Após rodar o scraper, utilize o script de seed para popular o banco de dados com os dados coletados:
 
 ```bash
-uv run python -m src.scripts.scrape_books
+uv run -m src.scripts.seed
 ```
+Um arquivo de log `log_seed.txt` é gerado, detalhando sua execução.
 
 Certifique-se de que as variáveis de ambiente estejam configuradas e que o ambiente virtual esteja ativado antes de executar os scripts.
 
-## Licença
+`Obs`.: ao rodar o script, todos os registros de livros e categorias são apagados antes dos novos serem inseridos.
 
-MIT License
+## Dashboard
+Dashboard interativo construído com `Streamlit` para exploração da base de livros. A aplicação foi projetada para consumir a API RESTful buscando dados em tempo real e garantindo o acesso através de uma tela de login segura. Dessa forma, para rodar o dashboard, a API deverá estar em execução.
+
+Execute o comando:
+
+```bash
+uv run uvicorn main:app --reload # Necessário api estar em execução
+streamlit run dashboard/app.py 
+```
+Demonstração do Dashboard
+![Demonstração do Dashboard de Livros](./assets/dashboard.png)
 
 ---
 
