@@ -1,54 +1,83 @@
-2025-07-14 22:12:47,911 - INFO - Iniciando scraper para http://books.toscrape.com/
-2025-07-14 22:12:48,489 - INFO - Conexão bem-sucedida a url http://books.toscrape.com/ !
-2025-07-14 22:12:48,918 - INFO - Encontrados 11 livros na categoria Travel.
-2025-07-14 22:12:49,452 - INFO - Encontrados 20 livros na categoria Mystery.
-2025-07-14 22:12:49,976 - INFO - Encontrados 20 livros na categoria Historical Fiction.
-2025-07-14 22:12:50,501 - INFO - Encontrados 20 livros na categoria Sequential Art.
-2025-07-14 22:12:51,028 - INFO - Encontrados 19 livros na categoria Classics.
-2025-07-14 22:12:51,433 - INFO - Encontrados 11 livros na categoria Philosophy.
-2025-07-14 22:12:51,957 - INFO - Encontrados 20 livros na categoria Romance.
-2025-07-14 22:12:52,476 - INFO - Encontrados 17 livros na categoria Womens Fiction.
-2025-07-14 22:12:53,004 - INFO - Encontrados 20 livros na categoria Fiction.
-2025-07-14 22:12:53,548 - INFO - Encontrados 20 livros na categoria Childrens.
-2025-07-14 22:12:53,947 - INFO - Encontrados 7 livros na categoria Religion.
-2025-07-14 22:12:54,474 - INFO - Encontrados 20 livros na categoria Nonfiction.
-2025-07-14 22:12:54,882 - INFO - Encontrados 13 livros na categoria Music.
-2025-07-14 22:12:55,407 - INFO - Encontrados 20 livros na categoria Default.
-2025-07-14 22:12:55,928 - INFO - Encontrados 16 livros na categoria Science Fiction.
-2025-07-14 22:12:56,322 - INFO - Encontrados 5 livros na categoria Sports and Games.
-2025-07-14 22:12:56,846 - INFO - Encontrados 20 livros na categoria Add a comment.
-2025-07-14 22:12:57,378 - INFO - Encontrados 20 livros na categoria Fantasy.
-2025-07-14 22:12:57,773 - INFO - Encontrados 6 livros na categoria New Adult.
-2025-07-14 22:12:58,295 - INFO - Encontrados 20 livros na categoria Young Adult.
-2025-07-14 22:12:58,808 - INFO - Encontrados 14 livros na categoria Science.
-2025-07-14 22:12:59,332 - INFO - Encontrados 19 livros na categoria Poetry.
-2025-07-14 22:12:59,717 - INFO - Encontrados 1 livros na categoria Paranormal.
-2025-07-14 22:13:00,118 - INFO - Encontrados 8 livros na categoria Art.
-2025-07-14 22:13:00,520 - INFO - Encontrados 7 livros na categoria Psychology.
-2025-07-14 22:13:00,921 - INFO - Encontrados 9 livros na categoria Autobiography.
-2025-07-14 22:13:01,310 - INFO - Encontrados 1 livros na categoria Parenting.
-2025-07-14 22:13:01,696 - INFO - Encontrados 1 livros na categoria Adult Fiction.
-2025-07-14 22:13:02,098 - INFO - Encontrados 10 livros na categoria Humor.
-2025-07-14 22:13:02,618 - INFO - Encontrados 17 livros na categoria Horror.
-2025-07-14 22:13:03,141 - INFO - Encontrados 18 livros na categoria History.
-2025-07-14 22:13:03,671 - INFO - Encontrados 20 livros na categoria Food and Drink.
-2025-07-14 22:13:04,076 - INFO - Encontrados 6 livros na categoria Christian Fiction.
-2025-07-14 22:13:04,487 - INFO - Encontrados 12 livros na categoria Business.
-2025-07-14 22:13:04,886 - INFO - Encontrados 5 livros na categoria Biography.
-2025-07-14 22:13:05,296 - INFO - Encontrados 11 livros na categoria Thriller.
-2025-07-14 22:13:05,687 - INFO - Encontrados 3 livros na categoria Contemporary.
-2025-07-14 22:13:06,082 - INFO - Encontrados 6 livros na categoria Spirituality.
-2025-07-14 22:13:06,469 - INFO - Encontrados 1 livros na categoria Academic.
-2025-07-14 22:13:06,864 - INFO - Encontrados 5 livros na categoria Self Help.
-2025-07-14 22:13:07,251 - INFO - Encontrados 2 livros na categoria Historical.
-2025-07-14 22:13:07,642 - INFO - Encontrados 3 livros na categoria Christian.
-2025-07-14 22:13:08,029 - INFO - Encontrados 1 livros na categoria Suspense.
-2025-07-14 22:13:08,445 - INFO - Encontrados 1 livros na categoria Short Stories.
-2025-07-14 22:13:08,835 - INFO - Encontrados 1 livros na categoria Novels.
-2025-07-14 22:13:09,231 - INFO - Encontrados 4 livros na categoria Health.
-2025-07-14 22:13:09,621 - INFO - Encontrados 3 livros na categoria Politics.
-2025-07-14 22:13:10,008 - INFO - Encontrados 1 livros na categoria Cultural.
-2025-07-14 22:13:10,396 - INFO - Encontrados 1 livros na categoria Erotica.
-2025-07-14 22:13:10,781 - INFO - Encontrados 1 livros na categoria Crime.
-2025-07-14 22:13:10,783 - INFO - Dados salvos com sucesso em 'books_toscrape.csv'! Foram importados 517 livros.
-2025-07-14 22:13:10,783 - INFO - Tempo total de execução: 22.27 segundos
+2025-08-03 15:54:06,121 - INFO - Acessando a página inicial: http://books.toscrape.com/
+2025-08-03 15:54:06,746 - INFO - Acessando a categoria: Travel
+2025-08-03 15:54:06,885 - INFO - Acessando a categoria: Mystery
+2025-08-03 15:54:07,038 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/mystery_3/page-2.html
+2025-08-03 15:54:07,181 - INFO - Acessando a categoria: Historical Fiction
+2025-08-03 15:54:07,328 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/historical-fiction_4/page-2.html
+2025-08-03 15:54:07,463 - INFO - Acessando a categoria: Sequential Art
+2025-08-03 15:54:07,617 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/sequential-art_5/page-2.html
+2025-08-03 15:54:07,765 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/sequential-art_5/page-3.html
+2025-08-03 15:54:07,912 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/sequential-art_5/page-4.html
+2025-08-03 15:54:08,054 - INFO - Acessando a categoria: Classics
+2025-08-03 15:54:08,212 - INFO - Acessando a categoria: Philosophy
+2025-08-03 15:54:08,350 - INFO - Acessando a categoria: Romance
+2025-08-03 15:54:08,497 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/romance_8/page-2.html
+2025-08-03 15:54:08,638 - INFO - Acessando a categoria: Womens Fiction
+2025-08-03 15:54:08,780 - INFO - Acessando a categoria: Fiction
+2025-08-03 15:54:08,925 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/fiction_10/page-2.html
+2025-08-03 15:54:09,070 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/fiction_10/page-3.html
+2025-08-03 15:54:09,216 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/fiction_10/page-4.html
+2025-08-03 15:54:09,351 - INFO - Acessando a categoria: Childrens
+2025-08-03 15:54:09,502 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/childrens_11/page-2.html
+2025-08-03 15:54:09,638 - INFO - Acessando a categoria: Religion
+2025-08-03 15:54:09,773 - INFO - Acessando a categoria: Nonfiction
+2025-08-03 15:54:09,923 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/nonfiction_13/page-2.html
+2025-08-03 15:54:10,071 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/nonfiction_13/page-3.html
+2025-08-03 15:54:10,223 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/nonfiction_13/page-4.html
+2025-08-03 15:54:10,368 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/nonfiction_13/page-5.html
+2025-08-03 15:54:10,515 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/nonfiction_13/page-6.html
+2025-08-03 15:54:10,655 - INFO - Acessando a categoria: Music
+2025-08-03 15:54:10,794 - INFO - Acessando a categoria: Default
+2025-08-03 15:54:10,941 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-2.html
+2025-08-03 15:54:11,087 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-3.html
+2025-08-03 15:54:11,233 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-4.html
+2025-08-03 15:54:11,382 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-5.html
+2025-08-03 15:54:11,535 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-6.html
+2025-08-03 15:54:11,688 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-7.html
+2025-08-03 15:54:11,884 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/default_15/page-8.html
+2025-08-03 15:54:12,023 - INFO - Acessando a categoria: Science Fiction
+2025-08-03 15:54:12,172 - INFO - Acessando a categoria: Sports and Games
+2025-08-03 15:54:12,306 - INFO - Acessando a categoria: Add a comment
+2025-08-03 15:54:12,457 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/add-a-comment_18/page-2.html
+2025-08-03 15:54:12,606 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/add-a-comment_18/page-3.html
+2025-08-03 15:54:12,757 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/add-a-comment_18/page-4.html
+2025-08-03 15:54:12,894 - INFO - Acessando a categoria: Fantasy
+2025-08-03 15:54:13,042 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/fantasy_19/page-2.html
+2025-08-03 15:54:13,189 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/fantasy_19/page-3.html
+2025-08-03 15:54:13,325 - INFO - Acessando a categoria: New Adult
+2025-08-03 15:54:13,458 - INFO - Acessando a categoria: Young Adult
+2025-08-03 15:54:13,610 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/young-adult_21/page-2.html
+2025-08-03 15:54:13,761 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/young-adult_21/page-3.html
+2025-08-03 15:54:13,903 - INFO - Acessando a categoria: Science
+2025-08-03 15:54:14,047 - INFO - Acessando a categoria: Poetry
+2025-08-03 15:54:14,197 - INFO - Acessando a categoria: Paranormal
+2025-08-03 15:54:14,328 - INFO - Acessando a categoria: Art
+2025-08-03 15:54:14,467 - INFO - Acessando a categoria: Psychology
+2025-08-03 15:54:14,604 - INFO - Acessando a categoria: Autobiography
+2025-08-03 15:54:14,744 - INFO - Acessando a categoria: Parenting
+2025-08-03 15:54:14,875 - INFO - Acessando a categoria: Adult Fiction
+2025-08-03 15:54:15,006 - INFO - Acessando a categoria: Humor
+2025-08-03 15:54:15,143 - INFO - Acessando a categoria: Horror
+2025-08-03 15:54:15,287 - INFO - Acessando a categoria: History
+2025-08-03 15:54:15,432 - INFO - Acessando a categoria: Food and Drink
+2025-08-03 15:54:15,577 - INFO - Navegando para a próxima página: http://books.toscrape.com/catalogue/category/books/food-and-drink_33/page-2.html
+2025-08-03 15:54:15,715 - INFO - Acessando a categoria: Christian Fiction
+2025-08-03 15:54:15,851 - INFO - Acessando a categoria: Business
+2025-08-03 15:54:16,016 - INFO - Acessando a categoria: Biography
+2025-08-03 15:54:16,149 - INFO - Acessando a categoria: Thriller
+2025-08-03 15:54:16,286 - INFO - Acessando a categoria: Contemporary
+2025-08-03 15:54:16,417 - INFO - Acessando a categoria: Spirituality
+2025-08-03 15:54:16,551 - INFO - Acessando a categoria: Academic
+2025-08-03 15:54:16,680 - INFO - Acessando a categoria: Self Help
+2025-08-03 15:54:16,813 - INFO - Acessando a categoria: Historical
+2025-08-03 15:54:16,943 - INFO - Acessando a categoria: Christian
+2025-08-03 15:54:17,073 - INFO - Acessando a categoria: Suspense
+2025-08-03 15:54:17,203 - INFO - Acessando a categoria: Short Stories
+2025-08-03 15:54:17,332 - INFO - Acessando a categoria: Novels
+2025-08-03 15:54:17,463 - INFO - Acessando a categoria: Health
+2025-08-03 15:54:17,595 - INFO - Acessando a categoria: Politics
+2025-08-03 15:54:17,725 - INFO - Acessando a categoria: Cultural
+2025-08-03 15:54:17,855 - INFO - Acessando a categoria: Erotica
+2025-08-03 15:54:17,986 - INFO - Acessando a categoria: Crime
+2025-08-03 15:54:18,116 - INFO - Dados salvos com sucesso em 'books_toscrape.csv'! Foram importados 1000 livros.
+2025-08-03 15:54:18,116 - INFO - Tempo total de execução: 12.00 segundos

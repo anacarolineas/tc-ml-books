@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urljoin
 import requests
 import time
 import csv
@@ -17,71 +18,86 @@ logging.basicConfig(
 )
 
 books_toscrape_url = 'http://books.toscrape.com/'
-logging.info(f"Iniciando scraper para {books_toscrape_url}")
 
 def scrape_book_data() -> str:
+    """Scrape book data from Books to Scrape and save to CSV."""
+    session = requests.Session()
+    start_time = time.perf_counter()
+
     try:
-        response = requests.get(books_toscrape_url)
-        response.raise_for_status() 
-        logging.info(f"Conexão bem-sucedida a url {books_toscrape_url} !")
-    except requests.exceptions.RequestException as e:
-        logging.exception(f"Erro ao acessar a url {books_toscrape_url}: {e}")
-        exit()
-    else:
+        logging.info(f"Acessando a página inicial: {books_toscrape_url}")
+        response = session.get(books_toscrape_url)
+        response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
-        start_time = time.perf_counter()
+    except requests.exceptions.RequestException as e:
+        logging.exception(f"Erro ao acessar a página inicial de {books_toscrape_url}: {e}")
+        exit()
+            
+    # Define the path for the CSV file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(script_dir)        
+    path_target_file =  os.path.join(project_root, 'data', 'books_toscrape.csv')
+    total_books_scraped = 0
 
-        categories = soup.find('ul', class_='nav-list').find_all('li')
+    try:
+        
+        with open(path_target_file, 'w', newline='', encoding='utf-8') as csv_file:
+            csv_writer = csv.writer(csv_file)
+            csv_writer.writerow(['Category', 'Title', 'Price', 'Availability', 'Rating', 'Image URL'])
 
-        try:
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(script_dir)        
-            path_target_file =  os.path.join(project_root, 'data', 'books_toscrape.csv')
+            category_links = soup.select('div.side_categories ul.nav-list ul li a')
 
-            total_books = 0
+            for category in category_links:
+                category_name = category.get_text(strip=True)
 
-            with open(path_target_file, 'w', newline='', encoding='utf-8') as csv_file:
-                csv_writer = csv.writer(csv_file)
-                csv_writer.writerow(['Category', 'Title', 'Price', 'Availability', 'Rating', 'Image URL'])
-
-                for category in categories:
-                    category_name = category.a.text.strip()
-
-                    if category_name == 'Books':
-                        continue
-                    
-                    category_url = books_toscrape_url + category.a['href']
-                                
-                    response = requests.get(category_url)
-                    response.raise_for_status()
+                if category_name == 'Books':
+                    continue
                 
-                    soup = BeautifulSoup(response.content, 'html.parser')
+                category_url = urljoin(books_toscrape_url, category['href'])
+                current_page_url = category_url
+                logging.info(f"Acessando a categoria: {category_name}")
+                while current_page_url:
+                    try:
+                        page_response = session.get(current_page_url)
+                        page_response.raise_for_status()
+                        page_soup = BeautifulSoup(page_response.content, 'html.parser')
+                        
+                        books_on_page = page_soup.find_all('article', class_='product_pod')
+                        if not books_on_page:
+                            logging.warning(f"Nenhum livro encontrado na página {current_page_url}")
+                            break 
 
-                    books = soup.find_all('article', class_='product_pod')
-                    total_books_category = len(books)
-                    total_books += total_books_category
-
-                    logging.info(f"Encontrados {total_books_category} livros na categoria {category_name}.")
-
-                    if not books:
-                        logging.warning(f"Nenhum livro encontrado na categoria {category_name}.")
-                    else:                  
-                        for book in books:
+                        for book in books_on_page:
                             title = book.h3.a['title']
-                            price = book.find('p', class_='price_color').text
+                            price = book.find('p', class_='price_color').text.strip()
                             availability = book.find('p', class_='instock availability').text.strip()
                             rating = book.p['class'][1]
-                            image_url = books_toscrape_url + book.find('img')['src']
+                            image_relative_url = book.find('img')['src']
+                            image_url = urljoin(books_toscrape_url, image_relative_url.replace('../', ''))
 
-                            csv_writer.writerow([category_name, title, price, availability, rating, image_url])    
-            logging.info(f"Dados salvos com sucesso em 'books_toscrape.csv'! Foram importados {total_books} livros.")
-            return path_target_file
-        except requests.exceptions.RequestException as e:
-            logging.error(f"Erro ao fazer a requisição HTTP: {e}")
-        except IOError as e:
-            logging.error(f"Erro ao escrever no arquivo CSV: {e}")
-        except Exception as e:
-            logging.error(f"Ocorreu um erro inesperado: {e}")
+                            csv_writer.writerow([category_name, title, price, availability, rating, image_url])
+                            total_books_scraped += 1
+
+                        # Searches for the "next" button to navigate to the next page
+                        next_page_element = page_soup.find('li', class_='next')
+                        if next_page_element and next_page_element.a:
+                            next_page_url = urljoin(category_url, next_page_element.a['href'])
+                            logging.info(f"Navegando para a próxima página: {next_page_url}")
+                            current_page_url = next_page_url
+                        else:
+                            current_page_url = None
+                    except requests.exceptions.RequestException as e:
+                        logging.error(f"Erro ao acessar a página {current_page_url}: {e}")
+                        current_page_url = None 
+  
+        logging.info(f"Dados salvos com sucesso em 'books_toscrape.csv'! Foram importados {total_books_scraped} livros.")
+        return path_target_file
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Erro ao fazer a requisição HTTP: {e}")
+    except IOError as e:
+        logging.error(f"Erro ao escrever no arquivo CSV: {e}")
+    except Exception as e:
+        logging.error(f"Ocorreu um erro inesperado: {e}")
 
     finally:
         end_time = time.perf_counter()
