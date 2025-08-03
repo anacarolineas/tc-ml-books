@@ -1,7 +1,8 @@
 
 from fastapi import APIRouter, Depends, Query
 from requests import Session
-from src.core import get_current_user, get_db
+from src.core.database import get_db
+from src.core.security import get_current_user
 from src.schemas import CategoryResponse, Page
 from src.crud import get_categories
 from src.schemas import UserResponse

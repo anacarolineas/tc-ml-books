@@ -1,7 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from src.core import get_db, get_current_user
+from src.core.database import get_db
+from src.core.security import get_current_user
 from src.schemas import StatsOverviewResponse, StatsCategoriesResponse, UserResponse
 from src.crud import get_stats_overview, get_stats_categories
 

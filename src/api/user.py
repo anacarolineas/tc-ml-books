@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from requests import Session
-from src.core import get_db, limiter
+from src.core.database import get_db
+from src.core.limiter import limiter
 from src.crud.users import create_user
 from src.schemas import UserCreate, UserResponse
 

@@ -6,7 +6,7 @@ from jose import jwt, JWTError
 from datetime import datetime, timedelta, timezone
 from requests import Session
 from src.crud import get_user_by_username
-from src.core import get_db
+from src.core.database import get_db
 from src.schemas import UserResponse
 
 load_dotenv() 

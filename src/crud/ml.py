@@ -1,6 +1,7 @@
 from typing import Iterator
 from requests import Session
-from src.models import Book, Prediction
+from src.models.book import Book
+from src.models.prediction import Prediction
 
 BATCH_SIZE = 1000
 

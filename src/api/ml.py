@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from requests import Session
-from src.core import get_current_user, get_db, format_as_json_lines_training_data
+from src.core.database import get_db
+from src.core.security import get_current_user
+from src.core.utils import format_as_json_lines_training_data
 from src.schemas import BookFeaturesResponse, UserResponse, BookTrainingDataResponse, PredictionResponse, BookResponse, PredictionCreate
 from src.crud import get_book_by_id, stream_training_data, save_prediction
 

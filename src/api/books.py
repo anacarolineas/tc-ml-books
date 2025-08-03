@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
-from src.core import get_current_user, get_db
+from src.core.database import get_db
+from src.core.security import get_current_user
 from src.schemas import Page, BookResponse, UserResponse
 from src.crud import get_books, get_book_by_id, search_books, get_books_top_rated, get_books_by_price_range
 
