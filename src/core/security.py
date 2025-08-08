@@ -101,7 +101,7 @@ async def refresh_token(
     """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Unable to validate credentials",
+        detail="Unable to validate refresh token",
         headers={"WWW-Authenticate": "Bearer"},
     )
     
