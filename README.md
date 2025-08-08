@@ -17,7 +17,7 @@ Uma API RESTful baseada em FastAPI para consulta de livros, categorias, previsõ
 - FastAPI
 - SQLAlchemy
 - Pydantic
-- UV (gerenciador de projeto)
+- UV
 - SQLite
 - Docker
 - BeautifulSoup
