@@ -20,6 +20,12 @@ def load_csv_to_db(db_session, csv_file_path: str):
     Load book data from a CSV file into the database.
     """
     try:
+        logging.info("Iniciando carga da base de dados....")
+        logging.info("Limpando a base de dados...")
+        
+        db_session.query(Book).delete()
+        db_session.query(Category).delete()
+
         categories_processed = set()
         categorias_db_map = {}
 
