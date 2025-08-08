@@ -5,6 +5,7 @@ from src.core.database import get_db
 from src.core.security import create_access_token, refresh_token
 from src.crud import authenticate_user
 from src.schemas import TokenResponse, RefreshTokenRequest
+from src.core.limiter import limiter
 
 router = APIRouter()
 
@@ -36,10 +37,11 @@ async def login(
 
 @router.post(
     "/refresh",
-    response_model=RefreshTokenRequest,
+    response_model=TokenResponse,
     summary="Refresh access token"
 )
-async def create_refresh_token(
+@limiter.limit("5/minute")
+async def refresh_access_token(
     refresh_token_request: RefreshTokenRequest,
     db: Session = Depends(get_db)
 ) -> TokenResponse:
@@ -49,6 +51,6 @@ async def create_refresh_token(
     - Requires a valid refresh token.
     - Returns a new access token if successful.
     """
-    new_refresh_token = refresh_token(db=db, refresh_token=refresh_token_request.refresh_token)
-    return TokenResponse(access_token=new_refresh_token, token_type="bearer")
+    new_access_token = await refresh_token(refresh_token=refresh_token_request.refresh_token, db=db)
+    return TokenResponse(access_token=new_access_token, token_type="bearer")
     
