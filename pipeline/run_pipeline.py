@@ -1,7 +1,8 @@
 import sys
 import structlog
-from src.scripts import scrape_book_data, load_csv_to_db
-from src.core import get_db
+from src.scripts.bookstoscrape_scraper import scrape_book_data
+from src.scripts.seed import load_csv_to_db
+from src.core.database import get_db
 
 structlog.configure(
     processors=[
