@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from requests import Session
 from src.core.database import get_db
@@ -42,6 +42,7 @@ async def login(
 )
 @limiter.limit("5/minute")
 async def refresh_access_token(
+    request: Request,
     refresh_token_request: RefreshTokenRequest,
     db: Session = Depends(get_db)
 ) -> TokenResponse:
