@@ -7,7 +7,7 @@ from slowapi.errors import RateLimitExceeded
 
 app = FastAPI(
     title="Books To Scrape API",
-    description="Uma API para analisar livros do Book To Scrape.",
+    description="API for analyzing books from 'Book To Scrape'.",
     version="1.0.0"
 )
 

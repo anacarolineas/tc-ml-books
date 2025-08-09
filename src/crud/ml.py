@@ -3,14 +3,14 @@ from requests import Session
 from src.models.book import Book
 from src.models.prediction import Prediction
 
-BATCH_SIZE = 1000
+BATCH_SIZE = 500
 
 def stream_training_data(db: Session) -> Iterator[Book]:
     """
     Fetches all books from the database and returns them as a stream
     to avoid excessive memory usage.
     """
-    # Search by batch of 1000
+    # Search by batch of 500
     query = db.query(Book).yield_per(BATCH_SIZE)
     for book in query:
         yield book
