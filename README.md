@@ -1,4 +1,4 @@
-# Tech Challenge ENG. Machine Learning - Scrapper Livros + Pipeline de dados
+# Tech Challenge ENG. Machine Learning - Consulta de livros e dados para Machine Learning
 
 Uma API RESTful baseada em FastAPI para consulta de livros, categorias, previsões de machine learning e cadastro de usuários. Os dados disponíveis para essa API foram extraídos do site [books.toscrape](https://books.toscrape.com/).
 
