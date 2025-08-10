@@ -99,7 +99,6 @@ order_by = st.sidebar.selectbox(
 
 if search:
     category_to_send = "" if category_filter == placeholder_text else category_filter
-    print(f"Buscando livros com título: {name_filter} e categoria: {category_to_send}")
     df_raw_search = load_data(
         title=name_filter,
         category=category_to_send
